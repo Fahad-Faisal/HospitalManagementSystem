@@ -126,4 +126,96 @@ INSERT INTO prescription (treatment_id, medicine_name, dosage, frequency, durati
 (8, 'Artificial Tears', NULL, 'As needed', 30, 'Use 1-2 drops per eye as needed for dryness'),
 (8, 'Omega-3 Supplements', '1000mg', 'Once daily', 30, 'Take with food to support eye health');
 
+-- ==================== CREATE ====================
+-- Add new treatment
+INSERT INTO treatment (appointment_id, doctor_id, patient_id, diagnosis, symptoms, treatment_plan, treatment_date, notes) 
+VALUES (1, 1, 1, 'Hypertension', 'High blood pressure, headaches', 'Prescribed medication', NOW(), 'Follow-up in 2 weeks');
 
+-- ==================== READ ====================
+-- Get all treatments
+SELECT * FROM treatment;
+
+-- Get treatment by ID
+SELECT * FROM treatment WHERE id = 1;
+
+-- Get treatments for specific patient
+SELECT * FROM treatment WHERE patient_id = 1;
+
+-- Get treatments for specific doctor
+SELECT * FROM treatment WHERE doctor_id = 2;
+
+-- Get treatments with patient and doctor details
+SELECT t.*, p.name as patient_name, d.name as doctor_name 
+FROM treatment t
+JOIN patient p ON t.patient_id = p.id
+JOIN doctor d ON t.doctor_id = d.id;
+
+-- Get latest treatments
+SELECT * FROM treatment ORDER BY treatment_date DESC LIMIT 10;
+
+-- ==================== UPDATE ====================
+-- Update diagnosis
+UPDATE treatment SET diagnosis = 'Updated Diagnosis' WHERE id = 1;
+
+-- Update treatment plan
+UPDATE treatment SET treatment_plan = 'New treatment plan', notes = 'Additional notes' WHERE id = 2;
+
+-- Update symptoms
+UPDATE treatment SET symptoms = 'Updated symptoms list' WHERE id = 3;
+
+-- ==================== DELETE ====================
+-- Delete treatment by ID
+DELETE FROM treatment WHERE id = 99;
+
+-- Delete old treatments
+DELETE FROM treatment WHERE treatment_date < DATE_SUB(NOW(), INTERVAL 1 YEAR);
+
+
+-- ==================== CREATE ====================
+-- Add new prescription
+INSERT INTO prescription (treatment_id, medicine_name, dosage, frequency, duration, instructions) 
+VALUES (1, 'Lisinopril', '10mg', 'Once daily', 30, 'Take in the morning with food');
+
+-- Add multiple prescriptions for same treatment
+INSERT INTO prescription (treatment_id, medicine_name, dosage, frequency, duration, instructions) VALUES
+(1, 'Aspirin', '81mg', 'Once daily', 30, 'Take with food'),
+(1, 'Atorvastatin', '20mg', 'Once daily', 30, 'Take at bedtime');
+
+-- ==================== READ ====================
+-- Get all prescriptions
+SELECT * FROM prescription;
+
+-- Get prescription by ID
+SELECT * FROM prescription WHERE id = 1;
+
+-- Get prescriptions for specific treatment
+SELECT * FROM prescription WHERE treatment_id = 1;
+
+-- Get prescriptions with treatment and patient details
+SELECT pr.*, t.diagnosis, p.name as patient_name 
+FROM prescription pr
+JOIN treatment t ON pr.treatment_id = t.id
+JOIN patient p ON t.patient_id = p.id;
+
+-- Get most prescribed medicines
+SELECT medicine_name, COUNT(*) as prescription_count 
+FROM prescription 
+GROUP BY medicine_name 
+ORDER BY prescription_count DESC;
+
+-- ==================== UPDATE ====================
+-- Update dosage
+UPDATE prescription SET dosage = '20mg', frequency = 'Twice daily' WHERE id = 1;
+
+-- Update duration
+UPDATE prescription SET duration = 15, instructions = 'Take with plenty of water' WHERE id = 2;
+
+-- Update medicine name
+UPDATE prescription SET medicine_name = 'Amoxicillin' WHERE id = 3;
+
+-- ==================== DELETE ====================
+-- Delete prescription by ID
+DELETE FROM prescription WHERE id = 99;
+
+-- Delete all prescriptions for a treatment
+DELETE FROM prescription WHERE treatment_id = 5;
