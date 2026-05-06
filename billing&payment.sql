@@ -1,3 +1,34 @@
+-- Billing table
+CREATE TABLE IF NOT EXISTS billing (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    bill_number VARCHAR(50) UNIQUE NOT NULL,
+    patient_id BIGINT NOT NULL,
+    consultation_fee DECIMAL(10,2) DEFAULT 0,
+    medicine_fee DECIMAL(10,2) DEFAULT 0,
+    lab_fee DECIMAL(10,2) DEFAULT 0,
+    other_charges DECIMAL(10,2) DEFAULT 0,
+    total_amount DECIMAL(10,2) DEFAULT 0,
+    tax DECIMAL(10,2) DEFAULT 0,
+    discount DECIMAL(10,2) DEFAULT 0,
+    net_amount DECIMAL(10,2) DEFAULT 0,
+    bill_date DATETIME,
+    status VARCHAR(20) DEFAULT 'PENDING',
+    notes TEXT,
+    FOREIGN KEY (patient_id) REFERENCES patient(id) ON DELETE CASCADE
+);
+
+-- Payment table
+CREATE TABLE IF NOT EXISTS payment (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    billing_id BIGINT UNIQUE NOT NULL,
+    amount DECIMAL(10,2),
+    payment_method VARCHAR(20),
+    transaction_id VARCHAR(100),
+    payment_date DATETIME,
+    status VARCHAR(20),
+    FOREIGN KEY (billing_id) REFERENCES billing(id) ON DELETE CASCADE
+);
+
 -- ==================== CREATE ====================
 -- Create new bill
 INSERT INTO billing (bill_number, patient_id, consultation_fee, medicine_fee, lab_fee, other_charges, total_amount, tax, discount, net_amount, bill_date, status) 
