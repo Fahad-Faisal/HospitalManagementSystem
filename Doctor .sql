@@ -11,19 +11,6 @@ CREATE TABLE doctor (
     password VARCHAR(255) NOT NULL
 );
 
--- Appointment Table
-CREATE TABLE appointment (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    doctor_id BIGINT,
-    FOREIGN KEY (doctor_id) REFERENCES doctor(id) ON DELETE CASCADE
-);
-
--- Treatment Table
-CREATE TABLE treatment (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    doctor_id BIGINT,
-    FOREIGN KEY (doctor_id) REFERENCES doctor(id) ON DELETE CASCADE
-);
 
 -- Doctor Availability Table
 CREATE TABLE doctor_availability (
