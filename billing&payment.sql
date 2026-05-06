@@ -1,5 +1,5 @@
 -- ==================== CREATE ====================
--- Create new bill
+-- Cr
 INSERT INTO billing (bill_number, patient_id, consultation_fee, medicine_fee, lab_fee, other_charges, total_amount, tax, discount, net_amount, bill_date, status) 
 VALUES ('BILL2025001', 1, 150.00, 45.00, 100.00, 0, 295.00, 29.50, 0, 324.50, NOW(), 'PENDING');
 
@@ -40,7 +40,7 @@ WHERE status = 'PAID'
 GROUP BY DATE_FORMAT(bill_date, '%Y-%m')
 ORDER BY month DESC;
 
--- ==================== UPDATE ====================
+-- ==================== =================
 -- Update bill status to PAID
 UPDATE billing SET status = 'PAID' WHERE id = 7;
 
@@ -55,7 +55,7 @@ WHERE id = 9;
 -- Apply discount
 UPDATE billing SET discount = 50.00, net_amount = net_amount - 50.00 WHERE id = 8;
 
--- ==================== DELETE ====================
+-- ==================== ===================
 -- Delete bill by ID
 DELETE FROM billing WHERE id = 99;
 
@@ -71,7 +71,7 @@ INSERT INTO patient (patient_id, name, email, phone, address, date_of_birth, gen
 ('PAT012', 'John Doe', 'john.doe@email.com', '+1-555-1112', '456 Oak St', '1985-05-10', 'Male', 'A+', 'patient123'),
 ('PAT013', 'Jane Smith', 'jane.smith@email.com', '+1-555-1113', '789 Pine St', '1990-08-15', 'Female', 'B+', 'patient123');
 
--- ==================== READ (Select) ====================
+-- =======================================
 -- Get all patients
 SELECT * FROM patient;
 
@@ -108,7 +108,7 @@ GROUP BY p.id;
 -- Get recent patients (last 30 days)
 SELECT * FROM patient WHERE id > (SELECT MAX(id) - 10 FROM patient);
 
--- ==================== UPDATE ====================
+-- ==================== ==================
 -- Update patient name
 UPDATE patient SET name = 'Updated Name' WHERE id = 1;
 
@@ -131,7 +131,7 @@ SET name = 'Updated Name',
     address = 'Updated Address'
 WHERE id = 5;
 
--- ==================== DELETE ====================
+-- =====================================
 -- Delete patient by ID
 DELETE FROM patient WHERE id = 999;
 
