@@ -35,7 +35,7 @@ INSERT INTO billing (bill_number, patient_id, consultation_fee, medicine_fee, la
 VALUES ('BILL2025001', 1, 150.00, 45.00, 100.00, 0, 295.00, 29.50, 0, 324.50, NOW(), 'PENDING');
 
 -- ==================== READ ====================
--- Get all bills
+--
 SELECT * FROM billing;
 
 -- Get bill by ID
